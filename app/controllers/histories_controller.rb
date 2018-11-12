@@ -12,6 +12,9 @@ class HistoriesController < ApplicationController
   def show
   end
 
+  def personal_histories
+   @histories = History.where user_id: helpers.current_user.id
+ end
   # GET /histories/new
   def new
     @history = History.new
@@ -25,7 +28,7 @@ class HistoriesController < ApplicationController
   # POST /histories.json
   def create
     @history = History.new(history_params)
-
+    @history.user = helpers.current_user
     respond_to do |format|
       if @history.save
         format.html { redirect_to @history, notice: 'History was successfully created.' }
